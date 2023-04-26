@@ -11,15 +11,7 @@ services:
       - "9090:9090"
     depends_on:
       - db
-    environment:
-      DB_host: db
-      DB_PORT: 5432
-      POSTGRES_USER : postgres
-      POSTGRES_PASS : postgres
-      POSTGRES_DB : postgres
-      POSTGRES_SSL : disable
-    networks:
-      - app_net
+
   db:
     image: postgres:latest
     environment:
@@ -32,7 +24,9 @@ services:
     volumes:
       - dbdata:/var/lib/postgressql/data
   nginx:
-    build: ./nginx
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     volumes:
