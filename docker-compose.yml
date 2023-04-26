@@ -1,35 +1,51 @@
 # Your solution goes here ...
 
-version: '3'
+version: "3.9"
 
 services:
+  app:
+    build:
+      context: ./product
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    depends_on:
+      - db
+    environment:
+      DB_host: db
+      DB_PORT: 5432
+      POSTGRES_USER : postgres
+      POSTGRES_PASS : postgres
+      POSTGRES_DB : postgres
+      POSTGRES_SSL : disable
+    networks:
+      - app_net
   db:
     image: postgres:latest
     environment:
       POSTGRES_HOST : db
       POSTGRES_PORT : 5432
       POSTGRES_USER : postgres
-      POSTGRES_PASS : postgres
+      POSTGRES_PASSWORD : postgres
       POSTGRES_DB : postgres
       POSTGRES_SSL : disable
-  app:
-    build:
-      context: .
-      dockerfile: dockerfile
-    ports:
-      - "9090:9090"
     volumes:
-      - .:/app
-    command: go run main.go
-    depends_on:
-      - db
+      - dbdata:/var/lib/postgressql/data
   nginx:
-    image: nginx:1.23
+    build: ./nginx
     ports:
       - "80:80"
-    depends_on:
-      - app
     volumes:
       - ./default.conf:/etc/nginx/default.conf
+    depends_on:
+      - app
+    networks:
+      - app_net
+
+volumes:
+  dbdata:
+
+networks:
+  app_net:
 
 # ..

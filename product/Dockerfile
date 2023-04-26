@@ -2,8 +2,6 @@
 
 FROM golang:1.20.3
 
-ENTRYPOINT [ "tail", "-f", "/dev/null" ]
-
 WORKDIR /app
 
 COPY go.mod go.sum ./
@@ -12,7 +10,7 @@ RUN go mod download && go mod verify
 
 COPY . . 
 
-RUN go build -o ./bin/product *.go
+RUN go build -o ./bin/product
 
 EXPOSE 9090
 
