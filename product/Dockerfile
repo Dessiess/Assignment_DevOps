@@ -1,6 +1,8 @@
 # Your solution goes here ...
 
-FROM golang:1.19-alpine
+FROM golang:1.20.3
+
+ENTRYPOINT [ "tail", "-f", "/dev/null" ]
 
 WORKDIR /app
 
@@ -14,6 +16,6 @@ RUN go build -o ./bin/product *.go
 
 EXPOSE 9090
 
-CMD [ "./main.go" ]
+CMD [ "./bin/product" ]
 
 # ...

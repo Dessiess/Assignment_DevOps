@@ -1,2 +1,35 @@
 # Your solution goes here ...
-# ...
+
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_HOST : db
+      POSTGRES_PORT : 5432
+      POSTGRES_USER : postgres
+      POSTGRES_PASS : postgres
+      POSTGRES_DB : postgres
+      POSTGRES_SSL : disable
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "9090:9090"
+    volumes:
+      - .:/app
+    command: go run main.go
+    depends_on:
+      - db
+  nginx:
+    image: nginx:1.23
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    volumes:
+      - ./default.conf:/etc/nginx/default.conf
+
+# ..
