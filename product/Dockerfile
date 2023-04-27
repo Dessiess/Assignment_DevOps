@@ -10,7 +10,7 @@ RUN go mod download && go mod verify
 
 COPY . . 
 
-RUN go build -o ./bin/product
+RUN go build -o ./bin/product *.go
 
 EXPOSE 9090
 
