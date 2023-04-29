@@ -1,4 +1,3 @@
-# Your solution goes here ...
 
 FROM golang:1.20.3
 
@@ -16,4 +15,4 @@ EXPOSE 9090
 
 CMD [ "./bin/product" ]
 
-# ...
+
