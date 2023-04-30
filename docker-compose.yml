@@ -13,12 +13,13 @@ services:
       - app_net    
     deploy:
       replicas: 3
-    restart: on-failure:2
+    restart:
+       on-failure:2
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:9090/healthz || exit 1"]
-      interval: 55s
+      interval: 30s
       timeout: 5s
-      retries: 5
+      retries: 3
   db:
     image: postgres:15.2
     environment:
@@ -44,12 +45,13 @@ services:
       - app
     networks:
       - app_net
-    restart: on-failure:2
     healthcheck:
-      test: ["CMD", "service", "nginx", "status"]
+      test: ["CMD", "service", "nginx", "status"] 
       interval: 10s
       timeout: 10s
       retries: 3
+    restart: 
+      on-failure:2
 volumes:
   dbdata:
 
